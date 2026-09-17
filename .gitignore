@@ -1,0 +1,9 @@
+# Node dependencies for local test runs
+node_modules/
+
+# Local artifacts
+*.tgz
+.*.log
+
+# Startup diagnostics written by a verification boot (`startupDiagnostic`)
+.verify-*.json

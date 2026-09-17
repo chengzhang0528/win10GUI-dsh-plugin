@@ -1,0 +1,42 @@
+# Installation does not authorize desktop control. Enable the row in the profile's user patch.
+#
+# This row ships DISABLED on purpose: DeskPilot drives the machine's real
+# interactive desktop through a Windows binary, and which profile may do that is
+# the deployment's decision — not an installer's side effect.
+#
+# To enable, copy the block below into the PROFILE'S OWN user patch
+# (`$DSH_HOME/profiles/<profile>/cordis.patch.yml`) and merge it with whatever
+# is already there — never replace that file, and never edit a shipped preset:
+#
+#   - id: deskpilot
+#     disabled: false
+#     config:
+#       asset:
+#         version: '6947fa5'
+#         platform: win-x64
+#         url: 'https://shared-public-assets.oss-cn-beijing.aliyuncs.com/deskpilot/cli/releases/6947fa5/dsh-bootstrap-6947fa5.zip'
+#         bytes: 13918926
+#         sha256: '6f0a3949ca155bb5106bbe2f18e6cb777e8c8ff2c1eebeb063e662585a1c21ba'
+#       timeoutMs: 130000
+#       doctorTimeoutMs: 60000
+#       setupTimeoutMs: 900000
+#       maxLineBytes: 8388608
+#       registerSkills: true
+#
+# `asset` is optional when the machine already has a portable bundle: set
+# `command` to that bundle's public `bin\win-agent.exe` instead. Never point
+# `command` at the internal `bin\app\win-agent.exe`, which bypasses runtime
+# preparation; the plugin rejects it.
+#
+# Keep the trailing `[]` when the list is empty: a profile patch file must always
+# parse to a top-level YAML array.
+- insert:
+    - id: deskpilot
+      name: dsh-plugin-deskpilot
+      disabled: true
+      config:
+        timeoutMs: 130000
+        doctorTimeoutMs: 60000
+        setupTimeoutMs: 900000
+        maxLineBytes: 8388608
+        registerSkills: true
